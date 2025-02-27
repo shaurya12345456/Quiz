@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indian Civics Quiz</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            margin: 0;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            color: white;
+            padding: 10px;
+        }
+        .container {
+            max-width: 90%;
+            margin: 30px auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            color: black;
+        }
+        .progress-bar {
+            width: 100%;
+            background: #ddd;
+            height: 20px;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+        .progress {
+            height: 100%;
+            width: 0%;
+            background: #4caf50;
+            border-radius: 10px;
+            transition: width 0.3s ease-in-out;
+        }
+        .question-container {
+            margin: 15px auto;
+            font-size: 1.1em;
+        }
+        .hidden {
+            display: none;
+        }
+        button {
+            width: 100%;
+            margin: 8px 0;
+            padding: 15px;
+            cursor: pointer;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #1976D2;
+        }
+        img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin: 10px 0;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🇮🇳 Indian Civics Quiz 🇮🇳</h1>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Constitution_of_India.jpg" alt="Indian Constitution">
+        <button id="start-btn">Start Quiz</button>
+        <div class="progress-bar hidden"><div class="progress"></div></div>
+        <div id="quiz-container" class="question-container hidden"></div>
+        <h2 id="result" class="hidden"></h2>
+    </div>
+    <script>
+        const questions = [
+            { question: "Who was the first Chief Justice of India?", options: ["B.R. Ambedkar", "Harilal J. Kania", "M. Hidayatullah", "Sarv Mittra Sikri"], answer: 1 },
+            { question: "How many articles are there in the Indian Constitution?", options: ["395", "448", "470", "350"], answer: 1 },
+            { question: "Which amendment lowered the voting age from 21 to 18?", options: ["61st", "42nd", "44th", "52nd"], answer: 0 },
+            { question: "Which schedule of the Constitution deals with the anti-defection law?", options: ["9th", "10th", "11th", "12th"], answer: 1 },
+            { question: "Who is the current Chief Justice of India?", options: ["N.V. Ramana", "D.Y. Chandrachud", "U.U. Lalit", "Sharad Arvind Bobde"], answer: 1 },
+            { question: "Which article provides the Right to Constitutional Remedies?", options: ["Article 19", "Article 32", "Article 21", "Article 14"], answer: 1 },
+            { question: "Who was the Chairman of the Drafting Committee of the Constitution?", options: ["Dr. Rajendra Prasad", "Sardar Patel", "Dr. B.R. Ambedkar", "Jawaharlal Nehru"], answer: 2 },
+            { question: "What is the minimum age to become the Prime Minister of India?", options: ["25", "30", "35", "40"], answer: 0 },
+            { question: "Which body is responsible for conducting elections in India?", options: ["Election Commission of India", "Supreme Court", "Lok Sabha", "Rajya Sabha"], answer: 0 },
+            { question: "Which article of the Indian Constitution abolishes untouchability?", options: ["Article 14", "Article 17", "Article 21", "Article 25"], answer: 1 },
+            { question: "Who has the power to dissolve the Lok Sabha?", options: ["President", "Prime Minister", "Chief Justice", "Parliament"], answer: 0 },
+            { question: "Which schedule of the Indian Constitution deals with Panchayati Raj?", options: ["9th", "10th", "11th", "12th"], answer: 2 },
+            { question: "How many fundamental rights are there in the Indian Constitution?", options: ["5", "6", "7", "8"], answer: 1 },
+            { question: "Who is the Supreme Commander of the Indian Armed Forces?", options: ["Prime Minister", "Defense Minister", "President", "Chief of Army Staff"], answer: 2 }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        const quizContainer = document.getElementById("quiz-container");
+        const progressBar = document.querySelector(".progress");
+        const startButton = document.getElementById("start-btn");
+
+        startButton.addEventListener("click", () => {
+            startButton.classList.add("hidden");
+            quizContainer.classList.remove("hidden");
+            document.querySelector(".progress-bar").classList.remove("hidden");
+            showQuestion();
+        });
+
+        function showQuestion() {
+            const q = questions[currentQuestion];
+            quizContainer.innerHTML = `<h2>${q.question}</h2>` + q.options.map((opt, i) => 
+                `<button onclick="selectAnswer(${i})">${opt}</button>`
+            ).join(" ");
+        }
+
+        function selectAnswer(selected) {
+            if (selected === questions[currentQuestion].answer) { score++; }
+            currentQuestion++;
+            progressBar.style.width = `${(currentQuestion / questions.length) * 100}%`;
+            currentQuestion < questions.length ? showQuestion() : showResult();
+        }
+
+        function showResult() {
+            quizContainer.innerHTML = `<h2>Score: ${score}/${questions.length} - ${score > 12 ? "Excellent!" : score > 8 ? "Great Job!" : "Itna kharab score Chiii"}</h2>`;
+        }
+    </script>
+</body>
+</html>
